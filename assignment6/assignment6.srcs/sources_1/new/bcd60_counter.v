@@ -14,13 +14,12 @@ module bcd60_counter_t(
     input EN_L);
 
     parameter n_system = 60; // < 100
-    parameter _digit_0 = (n_system - 1) % 10;
-    parameter _digit_1 = (n_system - 1) / 10;
+    parameter [3:0] _digit_0 = (n_system - 1) % 10;
+    parameter [3:0] _digit_1 = (n_system - 1) / 10;
     parameter _n_digit = 2; // Internal now.
 
     reg [7:0] next;
 
-    reg [3:0] bcd[0:_n_digit - 1];
     reg i, j, k;
 
     always @(posedge CLK) begin
@@ -37,14 +36,8 @@ module bcd60_counter_t(
             else if (OUT[7:4] == _digit_1[3:0] && OUT[3:0] == _digit_0[3:0])
                 next = 0;
             else begin
-                bcd[0] = OUT[3:0];
-                bcd[1] = OUT[7:4];
-                bcd[0] = bcd[0] + 1;
-                if (bcd[0] == 10) begin
-                    bcd[1] = bcd[1] + 1;
-                    bcd[0] = 0;
-                end
-                next = {bcd[1], bcd[0]};
+                next[7:4] = OUT[7:4] + (OUT[3:0] == 4'd9 ? 1 : 0);
+                next[3:0] = OUT[3:0] == 4'd9 ? 0 : OUT[3:0] + 4'd1;
             end
         end
         else
