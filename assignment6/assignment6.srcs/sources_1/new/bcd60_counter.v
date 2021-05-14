@@ -34,13 +34,13 @@ module bcd60_counter_t(
         if (~EN_L) begin
             if (OUT[7:4] >= 10 || OUT[3:0] >= 10)
                 next = 0;
-            else if (OUT[7:4] === _digit_1 && OUT[3:0] === _digit_0)
+            else if (OUT[7:4] == _digit_1[3:0] && OUT[3:0] == _digit_0[3:0])
                 next = 0;
             else begin
                 bcd[0] = OUT[3:0];
                 bcd[1] = OUT[7:4];
                 bcd[0] = bcd[0] + 1;
-                if (bcd[0] === 10) begin
+                if (bcd[0] == 10) begin
                     bcd[1] = bcd[1] + 1;
                     bcd[0] = 0;
                 end

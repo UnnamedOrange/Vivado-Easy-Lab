@@ -3,9 +3,10 @@
 /// <dependency>bcd60_counter.v</dependency>
 /// <version>
 /// 0.0.1 (2021-5-13 23:11:26): First commit.
+/// 0.0.2 (2021-5-14 11:56:00): Fix failing in synthesis. (Reset time is too short; clock is too fast.)
 /// </version>
 
-`timescale 1ns / 1ps
+`timescale 10ns / 1ps
 
 module uut_bdc60_counter();
     wire [7:0] test_OUT;
@@ -13,7 +14,7 @@ module uut_bdc60_counter();
     reg test_RESET_L;
     reg test_EN_L;
 
-    parameter n_system = 100; // This parameter can be up to 100. For better display, it is set to 12.
+    parameter n_system = 12; // This parameter can be up to 100. For better display, it is set to 12.
 
     bcd60_counter_t #(.n_system(n_system)) U1(.OUT(test_OUT), .CLK(CLK), .RESET_L(test_RESET_L), .EN_L(test_EN_L));
 
@@ -35,9 +36,9 @@ module uut_bdc60_counter();
     initial failure_count = 0;
 
     always begin : CLOCK
-        #0.05;
+        #0.25;
         CLK = 1; #0.5;
-        CLK = 0; #0.45;
+        CLK = 0; #0.25;
     end
 
     initial begin : TB
@@ -48,7 +49,7 @@ module uut_bdc60_counter();
         CLK = 0;
         test_RESET_L = 0;
         test_EN_L = 1;
-        #2;
+        #10; // Cannot be shorter.
 
         // Test the RESET.
         assert(test_OUT === 0, "OUT should be 0 after first RESET.");
