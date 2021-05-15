@@ -25,6 +25,12 @@ module uut_heater();
         .TEMPERATURE(test_temperature),
         .CLK(CLK),
         .RESET(RESET));
+    heater_t_imp2 U2(.HEATING_STATUS(test_heating_status[1]),
+        .DONE_STATUS(test_done_status[1]),
+        .BUTTON(test_button),
+        .TEMPERATURE(test_temperature),
+        .CLK(CLK),
+        .RESET(RESET));
 
     // Assertion template.
     integer failure_count;

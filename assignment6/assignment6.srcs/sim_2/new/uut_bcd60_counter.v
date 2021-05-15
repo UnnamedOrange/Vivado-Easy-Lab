@@ -14,6 +14,7 @@ module uut_bdc60_counter();
     reg test_RESET_L;
     reg test_EN_L;
 
+    // Only valid in behavioral simulation!!!
     parameter n_system = 12; // This parameter can be up to 100. For better display, it is set to 12.
 
     bcd60_counter_t #(.n_system(n_system)) U1(.OUT(test_OUT), .CLK(CLK), .RESET_L(test_RESET_L), .EN_L(test_EN_L));
