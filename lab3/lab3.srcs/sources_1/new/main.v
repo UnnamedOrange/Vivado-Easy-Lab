@@ -27,10 +27,16 @@ module main(
 	wire [7:0] second;
 	wire [15:0] millisecond;
 
-	enable_module_t em(
-		.pulse_10ms(pulse_10ms),
-		.pulse_1ms(pulse_1ms),
-		.pulse_120hz(pulse_120hz),
+	enable_module_t #(.pulse_frequency(100)) em10ms(
+		.pulse(pulse_10ms),
+		.RESET(RESET),
+		.CLK(CLK));
+	enable_module_t #(.pulse_frequency(1000)) em1ms(
+		.pulse(pulse_1ms),
+		.RESET(RESET),
+		.CLK(CLK));
+	enable_module_t #(.pulse_frequency(120)) em120hz(
+		.pulse(pulse_120hz),
 		.RESET(RESET),
 		.CLK(CLK));
 	system_controller_t sc(
