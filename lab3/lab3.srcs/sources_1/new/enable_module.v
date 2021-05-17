@@ -6,7 +6,7 @@
 /// </dependency>
 
 module enable_module_t(
-	output pulse,
+	output reg pulse,
 	input RESET,
 	input CLK);
 
@@ -17,15 +17,16 @@ module enable_module_t(
 	integer counter;
 
 	always @(posedge CLK) begin
-		if (RESET)
+		if (RESET) begin
 			counter <= 0;
+			pulse <= 0;
+		end
 		else begin
 			if (counter + 1 < count_to)
 				counter <= counter + 1;
 			else
 				counter <= 0;
+			pulse <= counter + 1 == count_to;
 		end
 	end
-
-	assign pulse = counter == 0;
 endmodule
