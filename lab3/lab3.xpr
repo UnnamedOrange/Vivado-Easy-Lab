@@ -127,6 +127,7 @@
       </Config>
     </FileSet>
     <FileSet Name="uut_enable_module" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/uut_enable_module" RelGenDir="$PGENDIR/uut_enable_module">
+      <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sources_1/new/enable_module.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
