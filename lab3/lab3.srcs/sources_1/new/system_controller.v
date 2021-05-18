@@ -16,6 +16,7 @@ module system_controller_t(
 	localparam status_init = 2'b00;
 	localparam status_working = 2'b01;
 	localparam status_pause = 2'b11;
+	localparam status_reset = 2'b10;
 	reg [1:0] status;
 
 	wire button_out;
@@ -33,15 +34,15 @@ module system_controller_t(
 			case (status)
 				status_init: if (button_out) status <= status_working;
 				status_working: if (button_out) status <= status_pause;
-				status_pause: if (button_out) status <= status_init;
+				status_pause: if (button_out) status <= status_reset;
+				status_reset: status <= status_init;
 				default: status <= status_init;
 			endcase
 		end
 	end
 
 	assign work = status == status_working;
-	assign clear = status == status_init;
-
+	assign clear = status == status_reset;
 endmodule
 
 module button_fliter_t(
