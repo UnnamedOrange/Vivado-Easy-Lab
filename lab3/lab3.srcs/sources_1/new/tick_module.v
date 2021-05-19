@@ -32,19 +32,36 @@ module tick_module_t(
 		end
 	end
 
-	always @(second, millisecond, overflow) begin
+	always @(second, millisecond, overflow) begin : EXCITATION
 		next_millisecond = millisecond + 1;
-		if (next_millisecond >= 1000) begin
-			next_millisecond = 0;
+		next_second = second;
+		next_overflow = overflow;
+
+		if (next_millisecond[3:0] >= 10) begin
+			next_millisecond[3:0] = 0;
+			next_millisecond[7:4] = millisecond[7:4] + 1;
+		end
+		if (next_millisecond[7:4] >= 10) begin
+			next_millisecond[7:4] = 0;
+			next_millisecond[11:8] = millisecond[11:8] + 1;
+		end
+		if (next_millisecond[11:8] >= 10) begin
+			next_millisecond[11:8] = 0;
+			next_millisecond[15:12] = millisecond[15:12] + 1;
+		end
+		if (next_millisecond[15:12] >= 1) begin
+			next_millisecond[15:12] = 0;
 			next_second = second + 1;
 		end
-		else
-			next_second = second;
-		if (next_second >= 60) begin
-			next_second = 0;
+
+
+		if (next_second[3:0] >= 10) begin
+			next_second[3:0] = 0;
+			next_second[7:4] = second[7:4] + 1;
+		end
+		if (next_second[7:4] >= 6) begin
+			next_second[7:4] = 0;
 			next_overflow = 1;
 		end
-		else
-			next_overflow = overflow;
 	end
 endmodule

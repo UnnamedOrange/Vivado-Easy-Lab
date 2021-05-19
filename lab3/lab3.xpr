@@ -155,6 +155,7 @@
       </Config>
     </FileSet>
     <FileSet Name="uut_system_controller" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/uut_system_controller" RelGenDir="$PGENDIR/uut_system_controller">
+      <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sources_1/new/system_controller.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -185,6 +186,7 @@
       </Config>
     </FileSet>
     <FileSet Name="uut_tick_module" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/uut_tick_module" RelGenDir="$PGENDIR/uut_tick_module">
+      <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sources_1/new/tick_module.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
