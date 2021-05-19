@@ -35,7 +35,7 @@ module main(
 		.pulse(pulse_1ms),
 		.RESET(RESET),
 		.CLK(CLK));
-	enable_module_t #(.pulse_frequency(120)) em120hz(
+	enable_module_t #(.pulse_frequency(480)) em120hz(
 		.pulse(pulse_120hz),
 		.RESET(RESET),
 		.CLK(CLK));
