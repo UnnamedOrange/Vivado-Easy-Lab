@@ -11,8 +11,8 @@
 
 module main(
 	output overflow,
-	output [7:0] led_segs,
-	output [3:0] led_sel,
+	output [7:0] led_segs_L,
+	output [3:0] led_sel_L,
 	input button,
 	input RESET,
 	input CLK);
@@ -56,8 +56,8 @@ module main(
 		.CLK(CLK),
 		.EN(pulse_1ms));
 	display_module_t dm(
-		.led_segs(led_segs),
-		.led_sel(led_sel),
+		.led_segs_L(led_segs_L),
+		.led_sel_L(led_sel_L),
 		.second(second),
 		.millisecond(millisecond),
 		.RESET(RESET),
