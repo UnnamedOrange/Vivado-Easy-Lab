@@ -33,3 +33,7 @@ set_property PACKAGE_PIN W6 [get_ports {led_segs_L[1]}]
 set_property PACKAGE_PIN U8 [get_ports {led_segs_L[2]}]
 set_property PACKAGE_PIN U5 [get_ports {led_segs_L[4]}]
 set_property PACKAGE_PIN V5 [get_ports {led_segs_L[5]}]
+
+set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
+set_property BITSTREAM.CONFIG.CONFIGRATE 33 [current_design]
+set_property CONFIG_MODE SPIx4 [current_design]
