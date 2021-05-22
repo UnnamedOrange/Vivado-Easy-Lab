@@ -24,24 +24,26 @@ module display_module_t(
 			led_sel_L <= 0;
 		end
 		else begin
-			led_sel_L[0] <= !led_sel_L[1] && !led_sel_L[2] && !led_sel_L[3];
-			for (i = 1; i < 4; i = i + 1)
-				led_sel_L[i] <= led_sel_L[i - 1];
+			if (EN) begin
+				led_sel_L[0] <= !(led_sel_L[0] && led_sel_L[1] && led_sel_L[2]);
+				for (i = 1; i < 4; i = i + 1)
+					led_sel_L[i] <= led_sel_L[i - 1];
+			end
 		end
 	end
 
-	always @(led_sel_L) begin
+	always @(led_sel_L, millisecond, second) begin
 		case (led_sel_L)
-			4'b0001: bcd_input <= millisecond[7:4];
-			4'b0010: bcd_input <= millisecond[11:8];
-			4'b0100: bcd_input <= second[3:0];
-			4'b1000: bcd_input <= second[7:4];
-			default: bcd_input <= 0;
+			4'b1110: bcd_input = millisecond[7:4];
+			4'b1101: bcd_input = millisecond[11:8];
+			4'b1011: bcd_input = second[3:0];
+			4'b0111: bcd_input = second[7:4];
+			default: bcd_input = 0;
 		endcase
 	end
 
 	assign led_segs_L[6:0] = bcd_output;
-	assign led_segs_L[7] = !(bcd_input == 4'b0100);
+	assign led_segs_L[7] = !(led_sel_L == 4'b1011);
 endmodule
 
 module bcd_7seg_t(
@@ -52,10 +54,10 @@ module bcd_7seg_t(
     reg [15:0] storages[0:6];
     integer i;
     always @(*) begin
-        storages[0] = 16'b0000001110101101;
+        storages[0] = 16'b0000001111101101;
         storages[1] = 16'b0000001110011111;
         storages[2] = 16'b0000001111111011;
-        storages[3] = 16'b0000000101101101;
+        storages[3] = 16'b0000001101101101;
         storages[4] = 16'b0000000101000101;
         storages[5] = 16'b0000001101110001;
         storages[6] = 16'b0000001101111100;
@@ -63,6 +65,6 @@ module bcd_7seg_t(
             for (i = 0; i < 7; i = i + 1)
                 OUT_L[i] = !storages[i][IN];
         else
-            OUT_L = 7'b0;
+            OUT_L = 7'b1111111;
     end
 endmodule
